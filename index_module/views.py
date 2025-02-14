@@ -54,9 +54,29 @@ def main_component(request):
 
 
 def bottom_panel(request):
-    return render(request, 'bottom_panel.html', {
-        'links': LinkModel.objects.filter(is_active=True),
-    })
+    try:
+        return render(request, 'bottom_panel.html', {
+            'links': LinkModel.objects.filter(is_active=True),
+        })
+
+    except Exception as e:
+        error_logger = logging.getLogger('error_logger')
+        error_logger.error(f'This is an error message: {e}')
+
+        return redirect('error')
+
+
+def links(request):
+    try:
+        return render(request, 'link.html', {
+            'logo': LogoModel.objects.first(),
+        })
+
+    except Exception as e:
+        error_logger = logging.getLogger('error_logger')
+        error_logger.error(f'This is an error message: {e}')
+
+        return redirect('error')
 
 
 class ErrorView(View):
