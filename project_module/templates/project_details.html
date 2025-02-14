@@ -1,0 +1,262 @@
+{% extends 'layout.html' %}
+{% load render_partial %}
+
+{% block title %}
+    Project Details
+{% endblock %}
+
+{% block class %}
+    class="mil-half-page"
+{% endblock %}
+
+{% block content %}
+    <div class="mil-content">
+        <div class="mil-overlay"></div>
+        <div class="mil-left-part">
+            <div class="transition-fade" id="swupMain">
+                <!-- news -->
+                <div class="mil-content-frame">
+                    <div class="mil-scroll mil-half-1 mil-bp-fix-2">
+                        <div class="mil-main-content">
+                            <div class="mil-banner">
+                                <img src="{{ project.image.url }}" alt="banner" class="mil-banner-bg mil-scale-img"
+                                     data-value-1="1" data-value-2="1.3">
+                                <div class="mil-banner-overlay-2"></div>
+                                <div class="mil-banner-content mil-type-3">
+                                    <div class="row mil-mb-60 mil-up">
+                                        <div class="col-md-12">
+                                            <h1 class="mil-line-height mil-mb-30">{{ project.title }}</h1>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mil-space-90 mil-p-0-75">
+
+                                {% for paragraph in project.paragraph.all %}
+                                    <h2 class="mil-mb-30 mil-up">{{ paragraph.title }}</h2>
+                                    <p class="mil-mb-60 mil-up">{{ paragraph.text }}</p>
+
+                                    {% if paragraph.quote %}
+                                        <blockquote class="mil-mb-60 mil-up">{{ paragraph.quote }}</blockquote>
+                                    {% endif %}
+
+                                    <div class="row mil-mb-45">
+                                        {% for image in paragraph.images.all %}
+                                            <div
+                                                    {% if not paragraph.images.all|length|divisibleby:2 and forloop.last %}
+                                                    {% else %}
+                                                        class="col-6 mil-up"
+                                                    {% endif %}>
+
+                                                <div class="mil-pub-img mil-mb-15">
+                                                    <a href="{{ image.image.url }}" data-fancybox="gallery"
+                                                       data-no-swup>
+                                                        <img src="{{ image.image.url }}" alt="cover">
+                                                    </a>
+                                                    <a href="#." class="mil-zoom" date-no-swup>
+                                                        <i class="fal fa-expand"></i>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                            {% if project_form %}
+                                                <form action="{% url 'delete_project_image' image.id %}"
+                                                      method="post">
+                                                    {% csrf_token %}
+                                                    <div class="row mil-aic">
+                                                        <div class="col-12 col-sm-8 col-md-8 mil-mb-15"></div>
+                                                        <div class="col-12 col-sm-4 mil-mb-15 mil-jce mil-xs-jcs mil-up">
+                                                            <button type="submit" class="mil-btn-sm">حذف عکس
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                                <br>
+                                                <div class="mil-divider mil-mb-60 mil-up"></div>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </div>
+
+                                    {% if project_form %}
+                                        <form action="{% url 'delete_project_paragraph' paragraph.id %}" method="post">
+                                            {% csrf_token %}
+                                            <div class="row mil-aic">
+                                                <div class="col-12 col-sm-8 col-md-8 mil-mb-15"></div>
+                                                <div class="col-12 col-sm-4 mil-mb-15 mil-jce mil-xs-jcs mil-up">
+                                                    <button type="submit" class="mil-btn-sm">حذف پاراگراف</button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                        <br>
+                                        <div class="mil-divider mil-mb-60 mil-up"></div>
+                                    {% endif %}
+                                {% endfor %}
+
+                                {% if project_form %}
+                                    <div class="mil-space-90 mil-p-0-75">
+                                        <form method="post" enctype="multipart/form-data">
+                                            {% csrf_token %}
+                                            <div class="row mil-aic">
+                                                <div class="col-lg-12 mil-mb-15">
+                                                    <div class="mil-input-frame mil-up">
+                                                        {{ project_form.tag }}
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-12 mil-mb-15">
+
+                                                    {{ project_form.image }}
+
+                                                </div>
+                                                <div class="col-lg-12 mil-mb-15">
+                                                    <div class="mil-input-frame mil-up">
+                                                        {{ project_form.title }}
+                                                    </div>
+                                                </div>
+                                                <div class="col-12 col-sm-8 col-md-8 mil-mb-15"></div>
+                                                <div class="col-12 col-sm-4 mil-mb-15 mil-jce mil-xs-jcs mil-up">
+                                                    <button type="submit" class="mil-btn-sm">ثبت</button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <br>
+                                    <div class="mil-divider mil-mb-60 mil-up"></div>
+                                {% endif %}
+
+                                {% if paragraph_form_list %}
+                                    {% for paragraph_form in paragraph_form_list %}
+                                        <div class="mil-space-90 mil-p-0-75">
+                                            <form action="{% url 'update_project_paragraph' paragraph_form.instance.id %}"
+                                                  method="post">
+                                                {% csrf_token %}
+                                                <div class="row mil-aic">
+                                                    <div class="col-sm-12 mil-mb-15">
+                                                        <div class="mil-input-frame mil-up">
+                                                            {{ paragraph_form.title }}
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-12 mil-mb-15">
+
+                                                        <div class="mil-input-frame mil-up">
+                                                            {{ paragraph_form.quote }}
+                                                        </div>
+
+                                                    </div>
+                                                    <div class="col-lg-12 mil-mb-15">
+                                                        <div class="mil-input-frame mil-up">
+                                                            {{ paragraph_form.text }}
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-12 col-sm-8 col-md-8 mil-mb-15"></div>
+                                                    <div class="col-12 col-sm-4 mil-mb-15 mil-jce mil-xs-jcs mil-up">
+                                                        <button type="submit" class="mil-btn-sm">ثبت</button>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <div class="mil-space-90 mil-p-0-75">
+                                            <form action="{% url 'add_project_image' paragraph_form.instance.id %}"
+                                                  method="post" enctype="multipart/form-data">
+                                                {% csrf_token %}
+                                                <div class="row mil-aic">
+                                                    <div class="col-sm-12 mil-mb-15">
+                                                        <input type="file" name="img{{ paragraph_form.instance.id }}">
+                                                    </div>
+                                                    <div class="col-12 col-sm-8 col-md-8 mil-mb-15"></div>
+                                                    <div class="col-12 col-sm-4 mil-mb-15 mil-jce mil-xs-jcs mil-up">
+                                                        <button type="submit" class="mil-btn-sm">اضافه کردن</button>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <br>
+                                        <div class="mil-divider mil-mb-60 mil-up"></div>
+                                    {% endfor %}
+                                {% endif %}
+
+                                {% if paragraph_form %}
+                                    <div class="mil-space-90 mil-p-0-75">
+                                        <form action="{% url 'add_project_paragraph' project.id %}" method="post">
+                                            {% csrf_token %}
+                                            <div class="row mil-aic">
+                                                <div class="col-sm-12 mil-mb-15">
+                                                    <div class="mil-input-frame mil-up">
+                                                        {{ paragraph_form.title }}
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-12 mil-mb-15">
+
+                                                    <div class="mil-input-frame mil-up">
+                                                        {{ paragraph_form.text }}
+                                                    </div>
+
+                                                </div>
+                                                <div class="col-12 col-sm-8 col-md-8 mil-mb-15"></div>
+                                                <div class="col-12 col-sm-4 mil-mb-15 mil-jce mil-xs-jcs mil-up">
+                                                    <button type="submit" class="mil-btn-sm">اضافه کردن</button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <br>
+                                    <div class="mil-divider mil-mb-60 mil-up"></div>
+                                {% endif %}
+
+                                {% if image_form_list %}
+                                    {% for image_form in image_form_list %}
+                                        <div class="mil-space-90 mil-p-0-75">
+                                            <form action="{% url 'update_project_image' image_form.instance.id %}"
+                                                  method="post" enctype="multipart/form-data">
+                                                {% csrf_token %}
+                                                <div class="row mil-aic">
+                                                    <div class="col-sm-12 mil-mb-15">
+                                                        {{ image_form.image }}
+                                                    </div>
+                                                    <div class="col-12 col-sm-8 col-md-8 mil-mb-15"></div>
+                                                    <div class="col-12 col-sm-4 mil-mb-15 mil-jce mil-xs-jcs mil-up">
+                                                        <button type="submit" class="mil-btn-sm">ثبت تغییرات</button>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    {% endfor %}
+                                    <br>
+                                    <div class="mil-divider mil-mb-60 mil-up"></div>
+                                {% endif %}
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mil-bottom-panel">
+                        <div class="mil-space-90 mil-jcb mil-w-100">
+                            {% if last_project %}
+                                <a href="{% url 'project_details' last_project.id %}" class="mil-icon-text">
+                                    <div class="mil-arrow-btn mil-left">
+                                        <i class="fal fa-arrow-right"></i>
+                                    </div>
+                                    <div class="mil-link">قبلی</div>
+                                </a>
+                            {% endif %}
+                            <a href="{% url 'project' %}">
+                                <div class="mil-arrow-btn mil-left">
+                                    <i class="fal fa-grip-horizontal"></i>
+                                </div>
+                            </a>
+                            {% if next_project %}
+                                <a href="{% url 'project_details' next_project.id %}" class="mil-icon-text">
+                                    <div class="mil-link">بعدی</div>
+                                    <div class="mil-arrow-btn mil-right">
+                                        <i class="fal fa-arrow-right"></i>
+                                    </div>
+                                </a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                <!-- project end -->
+            </div>
+        </div>
+
+        {% render_partial 'index_module.views.main_component' %}
+
+    </div>
+{% endblock %}

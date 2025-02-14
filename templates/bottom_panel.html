@@ -1,0 +1,11 @@
+<div class="mil-bottom-panel">
+    <div class="mil-space-90">
+        <div class="mil-jcb mil-w-100">
+            {% for link in links %}
+                <a href="{{ link.link }}" class="mil-icon-text" data-no-swup target="_blank">
+                    <i class="{{ link.icon }}"></i>
+                </a>
+            {% endfor %}
+        </div>
+    </div>
+</div>

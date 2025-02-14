@@ -1,0 +1,53 @@
+{% extends 'layout.html' %}
+{% load render_partial %}
+
+{% block title %}
+    Memories
+{% endblock %}
+
+{% block class %}
+    class="mil-fw-page"
+{% endblock %}
+
+{% block content %}
+    <div class="mil-content">
+        <div class="mil-overlay"></div>
+        <div class="mil-left-part">
+            <div class="transition-fade" id="swupMain">
+                <!-- portfolio -->
+                <div class="mil-content-frame">
+                    <div class="mil-scroll mil-half-1 mil-bp-fix">
+                        <div class="mil-row-fix">
+                            <div class="row">
+                                {% for memory in memory_list %}
+                                    <div class="col-lg-4">
+                                        <div class="mil-blog-card mil-mb-15 mil-up">
+                                            <img src="{{ memory.image.url }}" alt="cover">
+                                            <div class="mil-descr">
+                                                <div class="mil-post-text">
+                                                    <div class="mil-left">
+                                                        <h3 class="mil-line-height mil-mb-30">{{ memory.title }}</h3>
+                                                        <a href="{% url 'memory_details' memory.id %}"
+                                                           class="mil-link mil-hover-link mil-accent">ادامه مطلب</a>
+                                                    </div>
+                                                    <div class="mil-right">
+                                                        <p>{{ memory.paragraph.first.text }}</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- portfolio end -->
+            </div>
+        </div>
+
+        {% render_partial 'index_module.views.main_component' %}
+
+    </div>
+{% endblock %}

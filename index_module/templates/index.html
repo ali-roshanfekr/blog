@@ -1,0 +1,25 @@
+{% extends 'layout.html' %}
+{% load render_partial %}
+
+
+{% block title %}
+    Home
+{% endblock %}
+
+{% block class %}
+	class="mil-fw-page"
+{% endblock %}
+
+{% block content %}
+    <div class="mil-content">
+        <div class="mil-overlay"></div>
+        <div class="mil-left-part">
+            <div class="transition-fade" id="swupMain">
+                <!-- cv -->
+                <div class="mil-cv-clone-here"></div>
+                <!-- cv end -->
+            </div>
+        </div>
+        {% render_partial 'index_module.views.main_component' %}
+    </div>
+{% endblock %}

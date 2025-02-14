@@ -1,0 +1,67 @@
+<a href="{% url 'index' %}" class="mil-logo">
+    <!-- text logo -->
+    <!--<span>wa</span>-->
+    <img src="{{ logo.image.url }}" alt="wa">
+</a>
+
+<div class="mil-menu-panel">
+    <nav class="mil-main-menu">
+        <ul id="swupMenu">
+            <li
+                    {% if request.path == '/' %}
+                        class="mil-current"
+                    {% endif %}
+
+            ><a href="{% url 'index' %}"><i class="fal fa-home"></i><span>خانه</span></a>
+            </li>
+            <li
+                    {% if 'projects' in request.path %}
+                        class="mil-current"
+                    {% endif %}
+
+            ><a href="{% url 'project' %}"><i class="fal fa-lightbulb"></i><span>اختراعات</span></a></li>
+            <li
+                    {% if 'contact' in request.path %}
+                        class="mil-current"
+                    {% endif %}
+
+            ><a href="{% url 'contact' %}"><i class="fal fa-envelope"></i><span>تماس</span></a></li>
+            <li
+                    {% if 'news' in request.path %}
+                        class="mil-current"
+                    {% endif %}
+
+            ><a href="{% url 'news' %}"><i class="fal fa-book"></i><span>مقالات</span></a></li>
+            <li
+                    {% if 'memories' in request.path %}
+                        class="mil-current"
+                    {% endif %}
+
+            ><a href="{% url 'memory' %}"><i class="fal fa-camera"></i><span>خاطرات</span></a></li>
+            <li
+                    {% if 'companies' in request.path %}
+                        class="mil-current"
+                    {% endif %}
+
+            ><a href="{% url 'company' %}"><i class="fal fa-triangle"></i><span>شرکت ها</span></a></li>
+
+
+            <li
+                    {% if 'user' in request.path %}
+                        class="mil-current"
+                    {% endif %}
+
+            ><a
+                    {% if user.is_authenticated %}
+                        href="{% url 'profile' %}"
+                    {% else %}
+                        href="{% url 'login' %}"
+                    {% endif %}
+
+            ><i class="fal fa-user"></i><span>ورود</span></a></li>
+
+            </li>
+        </ul>
+    </nav>
+    <div class="mil-menu-btn"><span></span></div>
+</div>

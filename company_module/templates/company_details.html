@@ -1,0 +1,111 @@
+{% extends 'layout.html' %}
+{% load render_partial %}
+
+
+{% block title %}
+    Company Details
+{% endblock %}
+
+{% block class %}
+    class="mil-half-page"
+{% endblock %}
+
+{% block content %}
+    <div class="mil-content">
+        <div class="mil-overlay"></div>
+        <div class="mil-left-part">
+            <div class="transition-fade" id="swupMain">
+                <!-- portfolio -->
+                <div class="mil-content-frame">
+                    <div class="mil-scroll mil-half-1 mil-bp-fix-2">
+                        <div class="mil-work-card mil-no-descr mil-mb-15">
+                            <a href="{{ company.image.url }}" data-fancybox="gallery" data-no-swup>
+                                <img src="{{ company.image.url }}" alt="cover">
+                            </a>
+                            <div class="mil-descr">
+                                <a href="#." class="mil-zoom">
+                                    <i class="fal fa-expand"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="mil-main-content">
+                            <div class="mil-project-description">
+                                <div class="mil-space-90 mil-p-90-75">
+                                    <div class="row mil-mb-60 mil-up">
+                                        <div class="col-md-6">
+                                            <h1 class="mil-mb-30">{{ company.title }}</h1>
+                                        </div>
+                                    </div>
+
+                                    {% for paragraph in company.paragraph.all %}
+                                        <div class="mil-title-line mil-mb-60 mil-up">
+                                            <h2>{{ paragraph.title }}</h2>
+                                            <div class="mil-line"></div>
+                                        </div>
+                                        <p class="mil-mb-60 mil-up">{{ paragraph.text }}</p>
+
+                                        <div class="row mil-mb-60">
+                                            {% for image in paragraph.images.all %}
+                                                <div
+                                                        {% if not paragraph.images.all|length|divisibleby:2 and forloop.last %}
+                                                        {% else %}
+                                                            class="col-6 mil-up"
+                                                        {% endif %}>
+
+                                                    <div class="mil-pub-img mil-mb-15">
+                                                        <a href="{{ image.image.url }}" data-fancybox="gallery"
+                                                           data-no-swup>
+                                                            <img src="{{ image.image.url }}" alt="cover">
+                                                        </a>
+                                                        <div class="mil-descr">
+                                                            <a href="#." class="mil-zoom">
+                                                                <i class="fal fa-expand"></i>
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            {% endfor %}
+                                        </div>
+
+                                    {% endfor %}
+
+                                    <div class="mil-divider mil-mb-60 mil-up"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mil-bottom-panel">
+                        <div class="mil-space-90 mil-jcb mil-w-100">
+                            {% if last_company %}
+                                <a href="{% url 'company_details' last_company.id %}" class="mil-icon-text">
+                                    <div class="mil-arrow-btn mil-left">
+                                        <i class="fal fa-arrow-right"></i>
+                                    </div>
+                                    <div class="mil-link">قبلی</div>
+                                </a>
+                            {% endif %}
+                            <a href="{% url 'company' %}">
+                                <div class="mil-arrow-btn mil-left">
+                                    <i class="fal fa-grip-horizontal"></i>
+                                </div>
+                            </a>
+                            {% if next_company %}
+                                <a href="{% url 'company_details' next_company.id %}" class="mil-icon-text">
+                                    <div class="mil-link">بعدی</div>
+                                    <div class="mil-arrow-btn mil-right">
+                                        <i class="fal fa-arrow-right"></i>
+                                    </div>
+                                </a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                <!-- portfolio end -->
+            </div>
+        </div>
+
+        {% render_partial 'index_module.views.main_component' %}
+
+    </div>
+{% endblock %}

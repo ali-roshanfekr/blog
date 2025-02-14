@@ -1,0 +1,92 @@
+{% extends 'layout.html' %}
+{% load render_partial %}
+
+{% block title %}
+    Contact
+{% endblock %}
+
+{% block class %}
+    class="mil-half-page"
+{% endblock %}
+
+{% block content %}
+    <div class="mil-content">
+        <div class="mil-overlay"></div>
+        <div class="mil-left-part">
+            <div class="transition-fade" id="swupMain">
+                <div class="mil-content-frame">
+                    <div class="mil-scroll mil-bp-fix mil-half-1">
+
+                        {% if user.is_authenticated %}
+                            {% for message in messages %}
+                                {% if message.reply %}
+                                    <div class="mil-review-card" style="background-color: #FFC107FF; color: black">
+                                        <div class="mil-top mil-mb-20-plus">
+                                            <div>
+                                                <h3 class="mil-mb-10" style="color: black">ادمین</h3>
+                                            </div>
+                                        </div>
+                                        <p>
+                                            {{ message.text }}
+                                        </p>
+                                    </div>
+                                {% else %}
+                                    <div class="mil-review-card">
+                                        <div class="mil-top mil-mb-20-plus">
+                                            <div>
+                                                <h3 class="mil-mb-10">{{ user.username }}</h3>
+                                            </div>
+                                        </div>
+                                        <p>
+                                            {{ message.text }}
+                                        </p>
+                                    </div>
+                                {% endif %}
+                            {% endfor %}
+
+                            <div class="mil-bottom-panel">
+                                <div class="mil-jcc mil-space-15 mil-w-100">
+                                    <form class="mil-subscribe" method="post">
+                                        {% csrf_token %}
+                                        <div class="mil-input-frame">
+                                            <label>
+                                                <input type="text" name="text" placeholder="اینجا تایپ کنید..." autocomplete="off">
+                                            </label>
+                                        </div>
+                                        <button type="submit" class="mil-btn-sm"><i class="fa fa-arrow-alt-left"></i></button>
+                                    </form>
+                                </div>
+                            </div>
+                        {% else %}
+
+
+                            <div class="mil-content-frame mil-contact-frame">
+                                <div class="mil-main-content">
+                                    <div class="mil-banner">
+                                        <div class="mil-bg-frame">
+                                            <img src="{{ back_ground.image.url }}" alt="banner"
+                                                 class="mil-banner-bg mil-scale-img" data-value-1="1"
+                                                 data-value-2="1.3">
+                                        </div>
+                                        <div class="mil-banner-overlay"></div>
+                                        <div class="mil-banner-content mil-type-2">
+                                            <h1>برای پیام دادن</h1>
+                                            <br>
+                                            <h1>ابتدا وارد <a href="{% url 'login' %}" style="color: #00A693">حساب
+                                                کاربری</a> شوید </h1>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {% render_partial 'index_module.views.bottom_panel' %}
+                        {% endif %}
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {% render_partial 'index_module.views.main_component' %}
+
+    </div>
+{% endblock %}

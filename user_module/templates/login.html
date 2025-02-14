@@ -1,0 +1,73 @@
+{% extends 'layout.html' %}
+{% load render_partial %}
+
+{% block title %}
+    Login
+{% endblock %}
+
+{% block class %}
+    class="mil-half-page"
+{% endblock %}
+
+{% block content %}
+    <div class="mil-content">
+        <div class="mil-overlay"></div>
+        <div class="mil-left-part">
+            <div class="transition-fade" id="swupMain">
+                <!-- contact -->
+                <div class="mil-content-frame mil-contact-frame">
+                    <div class="mil-scroll mil-bp-fix-2 mil-half-1">
+                        <div class="mil-main-content">
+                            <div class="mil-banner">
+                                <div class="mil-bg-frame">
+                                    <img src="{{ back_ground.image.url }}" alt="banner"
+                                         class="mil-banner-bg mil-scale-img" data-value-1="1" data-value-2="1.3">
+                                </div>
+                                <div class="mil-banner-overlay"></div>
+                                <div class="mil-banner-content mil-type-2">
+                                    <h1>ورود</h1>
+                                </div>
+                            </div>
+                            <div class="mil-space-90 mil-p-0-75">
+                                <form method="post">
+                                    {% csrf_token %}
+                                    <div class="row mil-aic">
+                                        <div class="col-sm-12 mil-mb-15">
+                                            <div class="mil-input-frame mil-up">
+                                                {{ form.username }}
+                                                <i class="fal fa-at"></i>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-12 mil-mb-15">
+                                            <div class="mil-input-frame mil-up">
+                                                {{ form.password }}
+                                                <i class="fal fa-diamond"></i>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 col-sm-8 col-md-8 mil-mb-15">
+                                            <label class="custom-checkbox mil-up">
+                                                <a href="{% url 'register' %}">ساخت حساب کاربری</a>
+                                            </label>
+                                            <br>
+                                            <label class="custom-checkbox mil-up">
+                                                <a href="{% url 'forget_pass' %}">فراموشی رمزعبور</a>
+                                            </label>
+                                        </div>
+                                        <div class="col-12 col-sm-4 mil-mb-15 mil-jce mil-xs-jcs mil-up">
+                                            <button type="submit" class="mil-btn-sm">ورود</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    {% render_partial 'index_module.views.bottom_panel' %}
+                </div>
+                <!-- contact end -->
+            </div>
+        </div>
+
+        {% render_partial 'index_module.views.main_component' %}
+
+    </div>
+{% endblock %}
