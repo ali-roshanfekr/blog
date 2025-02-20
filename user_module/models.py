@@ -4,7 +4,7 @@ from django.db import models
 
 
 class UserModel(AbstractUser):
-    email = models.EmailField(unique=True, null=True, blank=True)
+    email = models.EmailField(null=True, blank=True)
     phone = models.CharField(max_length=20, unique=True)
     active_code = models.CharField(max_length=10, null=True, blank=True)
     token = models.CharField(max_length=100, null=True, blank=True)

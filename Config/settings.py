@@ -38,7 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django_render_partial',
     'jalali_date',
-    'kavenegar',
+    'requests',
+    'zeep',
 
     'index_module',
     'company_module',

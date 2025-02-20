@@ -1,0 +1,8 @@
+ERROR 2025-02-19 22:07:06,064 views This is an error message: 400 Client Error: Bad Request for url: http://www.mihansmscenter.ir:443/webservice/index.php?wsdl
+ERROR 2025-02-19 22:20:43,556 views This is an error message: 400 Client Error: Bad Request for url: http://www.mihansmscenter.ir:443/webservice/index.php?wsdl
+ERROR 2025-02-19 22:28:45,755 views This is an error message: Invalid XML content received (AttValue: " or ' expected, line 77, column 14)
+ERROR 2025-02-19 22:30:52,921 views This is an error message: 400 Client Error: Bad Request for url: http://www.mihansmscenter.ir:443/webservice/index.php?wsdl
+ERROR 2025-02-20 00:08:52,895 views This is an error message: 400 Client Error: Bad Request for url: http://www.mihansmscenter.ir:443/webservice/index.php?wsdl
+ERROR 2025-02-20 16:31:13,533 views This is an error message: UNIQUE constraint failed: user_module_usermodel.email
+ERROR 2025-02-20 23:16:13,176 views This is an error message: 
+ERROR 2025-02-20 23:16:19,570 views This is an error message: 

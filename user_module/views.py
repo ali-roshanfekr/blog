@@ -10,9 +10,43 @@ from django.utils.crypto import get_random_string
 from utils.utils import *
 from site_setting_module.models import BackGroundModel
 
-from kavenegar import *
-
 global_phone = global_username = None
+
+from zeep import Client
+import time
+
+
+def send_sms(request, user):
+    sms_username = 'heviko1402'
+    sms_password = 'ABYzxc1402'
+    sms_number = '30007650002271'
+
+    wsdl_url = 'http://mihansmscenter.com/webservice/?wsdl'
+    client = Client(wsdl_url)
+
+    try:
+        response = client.service.send(
+            sms_username,
+            sms_password,
+            f'{user.phone}',
+            sms_number,
+            f'''
+باعث خرسندی و افتخار است که همراه ما هستید. کد ورود:
+                {user.active_code}
+            ''',
+            int(time.time()),
+            False,
+            "",
+        )
+
+        if isinstance(response, dict) and response['status'] == 0:
+            print("Message successfully sent.")
+            print("Message ID:", response['identifier'])
+        else:
+            print("Error:", response['status_message'])
+
+    except Exception as e:
+        print("An error occurred:", str(e))
 
 
 class LogInView(View):
@@ -71,7 +105,6 @@ class LogInView(View):
                 return render(request, 'login.html', {
                     'form': form,
                     'back_ground': BackGroundModel.objects.filter(is_active=True).first(),
-                    'incorrect_format': True,
                 })
 
         except Exception as e:
@@ -112,14 +145,7 @@ class RegisterView(View):
                 user.set_password(raw_password=str(password))
                 user.save()
 
-                api = KavenegarAPI(
-                    '376C2F4B51734A3643366A655A714E7570465263614775394644333773537570644C5234666571566548673D')
-                params = {
-                    'sender': '2000660110',
-                    'receptor': f'{phone}',
-                    'message': f'Your OTP is: {active_code}',
-                }
-                api.sms_send(params)
+                send_sms(request, user)
 
                 return redirect('activation')
 
@@ -238,14 +264,7 @@ class ForgetPasswordView(View):
                     request.session['user_token'] = token
                     user.save()
 
-                    api = KavenegarAPI(
-                        '376C2F4B51734A3643366A655A714E7570465263614775394644333773537570644C5234666571566548673D')
-                    params = {
-                        'sender': '2000660110',
-                        'receptor': f'{phone}',
-                        'message': f'Your OTP is: {active_code}',
-                    }
-                    api.sms_send(params)
+                    send_sms(request, user)
 
                     return redirect('forget_pass_activation')
 
@@ -256,7 +275,6 @@ class ForgetPasswordView(View):
                 return render(request, 'forget_pass.html', {
                     'form': form,
                     'back_ground': BackGroundModel.objects.filter(is_active=True).first(),
-                    'incorrect': True,
                 })
 
         except Exception as e:
@@ -453,14 +471,7 @@ class ProfileView(View):
                         request.session['user_token'] = token
                         user.save()
 
-                        api = KavenegarAPI(
-                            '376C2F4B51734A3643366A655A714E7570465263614775394644333773537570644C5234666571566548673D')
-                        params = {
-                            'sender': '2000660110',
-                            'receptor': f'{global_phone}',
-                            'message': f'Your OTP is: {active_code}',
-                        }
-                        api.sms_send(params)
+                        send_sms(request, user)
 
                         return redirect('profile_activation')
 
@@ -561,14 +572,7 @@ class NewCodeView(View):
                 user.token = get_random_string(100)
                 request.session['user_token'] = user.token
 
-                api = KavenegarAPI(
-                    '376C2F4B51734A3643366A655A714E7570465263614775394644333773537570644C5234666571566548673D')
-                params = {
-                    'sender': '2000660110',
-                    'receptor': f'{user.phone}',
-                    'message': f'Your OTP is: {user.active_code}',
-                }
-                api.sms_send(params)
+                send_sms(request, user)
 
                 return render(request, 'activation.html', {
 
